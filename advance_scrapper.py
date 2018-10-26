@@ -1,7 +1,7 @@
 import os
 
 from config import *
-from lib.beutiful_scrapper import Scrapper
+from lib.libscrapper import Scrapper
 
 # initialize scrapper
 scrapper = Scrapper()
