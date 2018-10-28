@@ -1,3 +1,5 @@
+from selenium import webdriver
+
 from bs4 import BeautifulSoup
 import os
 import urllib.request
@@ -8,18 +10,16 @@ from config import *
 
 # Configure some static
 timeout = 60 # Request timeout
-url = BASE_URL + "/dog" # URL being scrapped
-target_dir = os.path.join(DATASET_PATH,"dog") # Target directory for scrapping data
+url = BASE_URL + "/cat" # URL being scrapped
+target_dir = os.path.join(DATASET_PATH,"cat") # Target directory for scrapping data
 
-# Bypass SSL verification
-context = ssl._create_unverified_context()
+# Use selenium firefox driver to get page source
+browser = webdriver.Firefox()
+browser.get(url)
 
-# Read HTML page and save as long string
-req = urllib.request.Request(url, headers=HEADERS)
-response = urllib.request.urlopen(req, timeout=timeout, context=context)
+# get page source
+html = browser.page_source
 
-# Read page source
-html = response.read()
 
 # Parse HTML source using BeautifulSoup
 soup =  BeautifulSoup(html, "html.parser")
@@ -65,7 +65,6 @@ for image_url in tqdm(image_urls,desc="Download Images"):
         f = open(image_path, 'wb')
         f.write(response.read())
         f.close()
-
 
 
 
